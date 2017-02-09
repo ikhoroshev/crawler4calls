@@ -33,6 +33,8 @@ class Launcher {
                 println("File ${args[0]} does not exist")
                 usage()
             }
+        } else {
+            println("Enter your script")
         }
         Scanner scan = new Scanner(configStream);
         StringBuilder configStr = new StringBuilder()
