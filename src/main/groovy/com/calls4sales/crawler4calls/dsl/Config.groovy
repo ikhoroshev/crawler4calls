@@ -23,6 +23,7 @@ public class Config{
         withConfig(config){
             imports { // imports customizer
                 star 'edu.uci.ics.crawler4j.parser'
+                star 'org.htmlcleaner'
             }
         }
         config.scriptBaseClass = 'com.calls4sales.crawler4calls.dsl.ScriptBaseClass'
@@ -53,6 +54,23 @@ column {
 column {
     name  'URL'
     value 'url'
+}
+column {
+    name  'Описание вакансии'
+    xpath "//div[@class='vacancy__description usergenerate']"
+    visitor { tagNode ->
+        def result = new StringBuilder()
+        tagNode.traverse(new TagNodeVisitor() {
+            public boolean visit(TagNode parentNode, HtmlNode htmlNode) {
+                if (htmlNode instanceof ContentNode) {
+                    result.append(((ContentNode) htmlNode).getContent())
+                    .append(System.lineSeparator())
+                }
+                return true
+            }
+        })
+        result.toString();
+    }
 }
 printConfig()
         """)

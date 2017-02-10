@@ -7,9 +7,12 @@ class ColumnConfig {
     String name
     String xpath
     String value
+    Closure visitor
+
     void name(String name) {this.name = name}
     void xpath(String xpath) {this.xpath = xpath}
     void value(String value) {this.value =value}
+    void visitor(Closure cl) {this.visitor = cl}
 
 
     @Override

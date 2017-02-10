@@ -42,7 +42,15 @@ class Crawler extends WebCrawler {
         for (columnConfig in Config.instance.columnConfigs) {
             String value = null;
             try {
-                if (columnConfig.value != null) {
+                if (columnConfig.visitor != null) {
+                    Object[] founds = node.evaluateXPath(columnConfig.xpath)
+                    if (founds.length > 0) {
+                        Object found = founds[0]
+                        if (found instanceof TagNode) {
+                           value =  columnConfig.visitor(found)
+                        }
+                    }
+                } else if (columnConfig.value != null) {
                     if (columnConfig.value.equals("url")) {
                         value = page.webURL.URL
                     }
