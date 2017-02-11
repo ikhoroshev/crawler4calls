@@ -10,6 +10,14 @@ column {
     xpath "//h1[@data-qa='vacancy-title']/text()"
 }
 column {
+    name  'Телефон'
+    xpath '//div[@class=\'vacancy-contacts-contact__phone\']/a[1]/@href'
+    postprocessor { value ->
+        //value.substring(value.length() - 11, value.length())
+        value.replace('\\D', '')
+    }
+}
+column {
     name  'Зарплата'
     xpath "//div[@data-qa='vacancy-salary']/text()"
 }

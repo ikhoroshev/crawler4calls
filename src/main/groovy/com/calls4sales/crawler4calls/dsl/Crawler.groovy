@@ -4,6 +4,8 @@ import edu.uci.ics.crawler4j.crawler.Page
 import edu.uci.ics.crawler4j.crawler.WebCrawler
 import edu.uci.ics.crawler4j.parser.HtmlParseData
 import edu.uci.ics.crawler4j.url.WebURL
+import org.apache.commons.logging.Log
+import org.apache.commons.logging.LogFactory
 import org.htmlcleaner.HtmlCleaner
 import org.htmlcleaner.TagNode
 
@@ -11,6 +13,7 @@ import org.htmlcleaner.TagNode
  * Created by Igor on 08.02.2017.
  */
 class Crawler extends WebCrawler {
+    private final Log log = LogFactory.getLog(getClass());
     private HtmlCleaner cleaner = new HtmlCleaner();
     @Override
     boolean shouldVisit(Page referringPage, WebURL url) {
@@ -26,7 +29,7 @@ class Crawler extends WebCrawler {
             try {
                 parsePage(page)
             } catch (Exception ex) {
-                System.err.println("Error while parse page $url ${ex.message}")
+                log.error("Error while parse page $url ${ex.message}", ex)
             }
         }
     }
@@ -69,7 +72,10 @@ class Crawler extends WebCrawler {
                     }
                 }
             } catch (Exception ex) {
-                System.err.println("Error while parse page $url, column ${columnConfig.name}: ${ex.message}")
+                log.error("Error while parse page $url, column ${columnConfig.name}: ${ex.message}", ex)
+            }
+            if (columnConfig.postprocessor != null) {
+                value = columnConfig.postprocessor(value)
             }
             values.add(i++, value)
         }
