@@ -17,6 +17,8 @@ class Crawler extends WebCrawler {
     private HtmlCleaner cleaner = new HtmlCleaner();
     @Override
     boolean shouldVisit(Page referringPage, WebURL url) {
+        def result = Config.instance.shouldVisit(url.URL)
+        log.info("We should${result?'':' not'} visit page ${url.URL}")
         return Config.instance.shouldVisit(url.URL)
     }
 
@@ -25,7 +27,7 @@ class Crawler extends WebCrawler {
         String url = page.getWebURL().getURL();
         if (page.getParseData() instanceof HtmlParseData
                 && Config.instance.shouldParse(page, url)) {
-            //println("We should parse $url")
+            log.info("We should parce page ${url}")
             try {
                 parsePage(page)
             } catch (Exception ex) {
