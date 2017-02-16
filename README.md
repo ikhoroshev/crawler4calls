@@ -12,5 +12,5 @@ mvn install
 Run
 ---
 ```
-java -jar target/crawler4calls-jar-with-dependencies.jar src/test/resources/testScript
+java -jar target/crawler4calls-jar-with-dependencies.jar src/test/resources/testScript.groovy
 ```
